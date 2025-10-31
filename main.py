@@ -202,4 +202,37 @@ async def on_guild_channel_pins_update(channel, last_pin):
         embed.timestamp = discord.utils.utcnow()
         await log_channel.send(embed=embed)
 
+
+@bot.event
+async def on_member_update(before, after):
+    if not before.guild:
+        return
+
+    log_channel = discord.utils.get(
+        before.guild.text_channels, name=LOG_CHANNEL_NAME)
+    if not log_channel:
+        return
+
+    before_timeout = before.timed_out_until
+    after_timeout = after.timed_out_until
+
+    if before_timeout != after_timeout:
+        embed = discord.Embed(title="⏱️ Member Timeout Updated",
+                              color=discord.Color.dark_orange())
+        embed.add_field(
+            name="User", value=f"{after} ({after.id})", inline=False)
+
+        if after_timeout is None:
+            # Timeout removed
+            embed.add_field(
+                name="Action", value="Timeout removed", inline=False)
+        else:
+            # Timeout applied or updated
+            embed.add_field(name="Action", value="Timed out", inline=False)
+            embed.add_field(name="Until", value=str(
+                after_timeout), inline=False)
+
+        embed.timestamp = discord.utils.utcnow()
+        await log_channel.send(embed=embed)
+
 bot.run(token, log_handler=handler)
