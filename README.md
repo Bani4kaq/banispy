@@ -2,4 +2,9 @@ all the functions that discord audit log already has but with the bonus of being
 
 in order to use, create a channel called "audit-log" (limiting who can view it isnt neccesary but reccomended) and ensure that the bot has all the permisions. if there is no audit-log channel, the bot will create one.
 
-git clone, create a .env file and pip install the stuff in requirements.txt. 
+git clone, create a .env file and pip install the stuff in requirements.txt then make a bot and copy it's token
+
+.env file setup: 
+
+1 DISCORD_TOKEN= paste bot token here
+2 LOG_CHANNEL_NAME= name of channel where the bot will log things 
